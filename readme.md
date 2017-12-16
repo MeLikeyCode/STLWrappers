@@ -1,4 +1,7 @@
-STLWrappers.h is a *single* header-only file that defines some STL wrapper functions that provide a *simpler* (less verbose, less generic, more for the common case) interface to the STL containers.
+STLWrappers.h
+=============
+
+STLWrappers.h is a *single* header-only file that defines some C++ STL wrapper functions that provide a *simpler* (less verbose, less generic, more for the common case) interface to the STL containers/algorithms.
 
 Currently, provides the following functions for all STL containers.
 - find(inContainer, item) -> iterator to item if found, else end iterator
