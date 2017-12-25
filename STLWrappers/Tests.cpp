@@ -104,6 +104,10 @@ TEST_CASE("operations work on containers")
 			STLWrappers::add(m, std::make_pair(4,5));
 			REQUIRE(std::size(m) == 4);
 			REQUIRE(STLWrappers::contains(m, 4) == true);
+			
+			STLWrappers::add(m, 5, 6);
+			REQUIRE(std::size(m) == 5);
+			REQUIRE(STLWrappers::contains(m, 5));
 		}
 
 		SECTION("on unordered maps")
@@ -111,6 +115,10 @@ TEST_CASE("operations work on containers")
 			STLWrappers::add(um, std::make_pair(4, 5));
 			REQUIRE(std::size(um) == 4);
 			REQUIRE(STLWrappers::contains(um, 4) == true);
+
+			STLWrappers::add(um, 5, 6);
+			REQUIRE(std::size(um) == 5);
+			REQUIRE(STLWrappers::contains(um, 5));
 		}
 	}
 
