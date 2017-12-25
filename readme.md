@@ -10,6 +10,7 @@ Currently, provides the following functions for all STL containers.
 - contains(container, item) -> true if container contains item, else false
 - containsAll(container,otherContainer) -> true if container contains all items of otherContainer
 - add(inContainer, item) -> adds item to the container
+- add(inMap, key, value) -> adds a key and value to a map (convenience overload of above function)
 - remove(fromContainer, item) -> removes item from the container
 - count(inContainer,item) -> number of times item is in the container
 
