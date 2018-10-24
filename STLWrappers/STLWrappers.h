@@ -1,14 +1,9 @@
 #pragma once
 
 /// This file defines some STL wrapper functions that provide a simpler interface to the STL containers.
-/// Provides the following functions for all STL containers.
-/// -find(inContainer, item) -> iterator to item if found, else end iterator
-/// -contains(container, item) -> true if container contains item, else false
-/// -containsAll(container, items) -> true if container contains all the specified items
-/// -add(inContainer, item) -> adds item to the container
-/// -remove(fromContainer, item) -> removes item from the container
-/// -count(inContainer,item) -> number of times item is in the container
 /// All functions use the most efficient search, add, and removal operations available for the container.
+/// For a brief description of the functions provided see readme.md.
+/// For more in depth description of what the functions do, look at the function documentation in this file.
 /// @file
 
 #include <algorithm>
@@ -18,7 +13,7 @@
 #include <unordered_map>
 
 /// This namespace contains some STL wrapper functions that provide a simpler interface to the STL.
-/// Read the STLWrappers.h documentation for more info.
+/// Read the STLWrappers.h file level documentation and readme.md for more info.
 namespace STLWrappers
 {
 
@@ -79,6 +74,7 @@ namespace STLWrappers
 	/// Returns true if the specified container contains *all* the specified items.
 	/// If the container is a map (or unordered map), the items should be keys.
 	///@{
+	///
 	/// containsAll() overload for all types except initializer lists
 	template<typename ContainerToCheckType, typename ContainerOfItemsType>
 	bool containsAll(const ContainerToCheckType& container, const ContainerOfItemsType& items)
@@ -166,6 +162,31 @@ namespace STLWrappers
 	{
 		inMap[key] = value;
 	}
+
+	/// @name add(inContainer, items)
+	/// Adds all the items of one container (or an initializer list) to another container.
+	/// Convenience function; simply calls add() repeatedly (once for each item to be added).
+	/// Complexity of this function depends on the complexity of adding a single element to the container.
+	/// More formally, complexity is O(n*c) where n is the number of items in `items` and c is the complexity 
+	/// of adding to `inContainer`.
+	///@{
+	///
+	/// overload for everything except an initializer list
+	template<typename ToContainerType, typename FromContainerType>
+	void addAll(ToContainerType& inContainer, const FromContainerType& items)
+	{
+		for (const auto& item : items)
+			add(inContainer, item);
+	}
+	///
+	/// overload for adding from an initializer list
+	template<typename ToContainerType, typename ItemType>
+	void addAll(ToContainerType& inContainer, const std::initializer_list<ItemType>& items)
+	{
+		for (const auto& item : items)
+			add(inContainer, item);
+	}
+	///@}
 
 	/// @name count(inContianer, item)
 	/// Returns the number of copies of an item that are in a container.

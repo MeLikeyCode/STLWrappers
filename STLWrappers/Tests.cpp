@@ -167,5 +167,74 @@ TEST_CASE("operations work on containers")
 
 	}
 
+	SECTION("addAll works")
+	{
+
+		SECTION("on vectors")
+		{
+			std::vector<int> v1{ 1,2,3 };
+			std::vector<int> v2{ 4,5,6 };
+			size_t v1OldSize = std::size(v1);
+			
+			STLWrappers::addAll(v1, v2);
+			REQUIRE(std::size(v1) == v1OldSize + std::size(v2));
+			REQUIRE(STLWrappers::containsAll(v1, v2));
+		}
+
+		SECTION("on sets")
+		{
+			std::set<int> c1{ 1,2,3 };
+			std::set<int> c2{ 4,5,6 };
+			size_t v1OldSize = std::size(c1);
+
+			STLWrappers::addAll(c1, c2);
+			REQUIRE(std::size(c1) == v1OldSize + std::size(c2));
+			REQUIRE(STLWrappers::containsAll(c1, c2));
+		}
+
+		SECTION("on unordered sets")
+		{
+			std::unordered_set<int> c1{ 1,2,3 };
+			std::unordered_set<int> c2{ 4,5,6 };
+			size_t v1OldSize = std::size(c1);
+
+			STLWrappers::addAll(c1, c2);
+			REQUIRE(std::size(c1) == v1OldSize + std::size(c2));
+			REQUIRE(STLWrappers::containsAll(c1, c2));
+		}
+
+		SECTION("on maps")
+		{
+			std::map<int, int> c1{ {1,1},{2,2},{3,3} };
+			std::map<int, int> c2{ {4,4},{5,5},{6,6} };
+			size_t v1OldSize = std::size(c1);
+
+			STLWrappers::addAll(c1, c2);
+			REQUIRE(std::size(c1) == v1OldSize + std::size(c2));
+			REQUIRE(STLWrappers::containsAll(c1, c2));
+		}
+
+		SECTION("on unordered maps")
+		{
+			std::unordered_map<int, int> c1{ { 1,1 },{ 2,2 },{ 3,3 } };
+			std::unordered_map<int, int> c2{ { 4,4 },{ 5,5 },{ 6,6 } };
+			size_t v1OldSize = std::size(c1);
+
+			STLWrappers::addAll(c1, c2);
+			REQUIRE(std::size(c1) == v1OldSize + std::size(c2));
+			REQUIRE(STLWrappers::containsAll(c1, c2));
+		}
+
+		SECTION("on initializer list")
+		{
+			std::vector<int> c1{ 1,2,3 };
+			size_t v1OldSize = std::size(c1);
+
+			STLWrappers::addAll(c1, {4,5,6});
+			REQUIRE(std::size(c1) == 6);
+			REQUIRE(STLWrappers::containsAll(c1, {4,5,6}));
+		}
+
+	}
 
 }
