@@ -3,8 +3,9 @@
 /// This file defines some STL wrapper functions that provide a simpler interface to the STL containers.
 /// All functions use the most efficient search, add, and removal operations available for the container.
 /// For a brief description of the functions provided see readme.md.
-/// For more in depth description of what the functions do, look at the function documentation in this file.
+/// For more in depth description of what the functions do, look at the function's API documentation in this file.
 /// @file
+/// @author Abdullah Aghazadah
 
 #include <algorithm>
 #include <set>
@@ -72,38 +73,71 @@ namespace STLWrappers
 
 	/// @name containsAll(container,items)
 	/// Returns true if the specified container contains *all* the specified items.
+	/// `items` can be another container or an initializer list.
 	/// If the container is a map (or unordered map), the items should be keys.
+	/// @note The most efficient search algorithm available for the container is used.
 	///@{
+	///
+	///
+	// internal (factors out common code between version taking a container and version taking an 
+	// initializer list)
+	template<typename ContainerToCheckType, typename ContainerOfItemsType>
+	bool containsAll_(const ContainerToCheckType& container, const ContainerOfItemsType& items)
+	{
+		for (const auto& item : items)
+			if (!contains(container, item))
+				return false;
+		return true;
+	}
+
 	///
 	/// containsAll() overload for all types except initializer lists
 	template<typename ContainerToCheckType, typename ContainerOfItemsType>
 	bool containsAll(const ContainerToCheckType& container, const ContainerOfItemsType& items)
 	{
-		// approach:
-		// - for each item in items
-		//		- if its not contained in container, return false
-		// - at the end (return true)
-
-		for (const auto& item : items)
-			if (!contains(container, item))
-				return false;
-		return true;
+		return containsAll_(container, items);
 	}
 	///
 	/// containsAll() overload for initializer lists
 	template<typename ContainerToCheckType, typename ItemType>
 	bool containsAll(const ContainerToCheckType& container, const std::initializer_list<ItemType>& items)
 	{
-		// approach:
-		// - for each item in items
-		//		- if its not contained in container, return false
-		// - at the end (return true)
-
-		for (const auto& item : items)
-			if (!contains(container, item))
-				return false;
-		return true;
+		return containsAll_(container, items);
 	}
+	///@}
+
+	/// @name containsAny(container, items)
+	/// Returns true if the specified container contains *any* of the specified items.
+	/// `items` can be another container or an initializer list.
+	/// @note The most efficient search algorithm available for the container is used.
+	///@{
+	///
+	// internal
+	template<typename ContainerToCheckType, typename ContainerOfItems>
+	bool containsAny_(const ContainerToCheckType& container, const ContainerOfItems& items)
+	{
+		for (const auto& item : items) 
+		{
+			if (contains(container, item))
+				return true;
+		}
+
+		return false;
+	}
+	///
+	/// containsAny() overload for any types
+	template<typename ContainerToCheckType, typename ContainerOfItems>
+	bool containsAny(const ContainerToCheckType& container, const ContainerOfItems& items)
+	{
+		return containsAny_(container, items);
+	}
+	///
+	template<typename ContainerToCheckType, typename ItemType>
+	bool containsAny(const ContainerToCheckType& container, const std::initializer_list<ItemType>& items)
+	{
+		return containsAny_(container, items);
+	}
+
 	///@}
 
 	/// @name remove(fromContainer, item)

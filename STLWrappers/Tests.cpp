@@ -238,3 +238,30 @@ TEST_CASE("operations work on containers")
 	}
 
 }
+
+TEST_CASE("containsAny()")
+{
+	SECTION("vector")
+	{
+		std::vector<int> v{1, 2, 3};
+		SECTION("on vector")
+		{
+			std::vector<int> v2{ 0,1,2 };
+			REQUIRE(STLWrappers::containsAny(v, v2));
+
+			std::vector<int> v3{ 0,0,0 };
+			REQUIRE(!STLWrappers::containsAny(v, v3));
+		}
+	}
+
+	SECTION("map")
+	{
+		std::map<int, int> m{ {1,1} };
+
+		SECTION("on vector")
+		{
+			std::vector<int> v{ 1 };
+			REQUIRE(STLWrappers::containsAny(m, v));
+		}
+	}
+}
