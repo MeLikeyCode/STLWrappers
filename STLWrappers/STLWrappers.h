@@ -263,4 +263,43 @@ namespace STLWrappers
 	}
 	///@}
 
+	/// @name inFirstButNotSecond(firstContainer,secondContainer)
+	/// Returns the set of items in the 'firstContainer' but not in the 'secondContainer'.
+	///@{
+	///
+	// overload for when both arguments are containers
+	template<typename FirstContainerType, typename SecondContainerType>
+	auto inFirstButNotInSecond(const FirstContainerType& firstContainer, const SecondContainerType& secondContainer) {
+		return inFirstButNotInSecond_(firstContainer, secondContainer);
+	}
+
+	// overload for when the first argument is an initializer list
+	template<typename ItemType, typename SecondContainerType>
+	auto inFirstButNotSecond(const std::initializer_list<ItemType>& firstContainer, const SecondContainerType& secondContainer) {
+		return inFirstButNotInSecond_(firstContainer, secondContainer);
+	}
+
+	// overload for when the second argument is an initializer list
+	template<typename ItemType, typename FirstContainerType>
+	auto inFirstButNotSecond(const FirstContainerType& firstContainer, const std::initializer_list<ItemType>& secondContainer) {
+		return inFirstButNotInSecond_(firstContainer, secondContainer);
+	}
+
+	// overload for when both arguments are initializer lists
+	template<typename ItemType>
+	auto inFirstButNotSecond(const std::initializer_list<ItemType>& firstContainer, const std::initializer_list<ItemType>& secondContainer) {
+		return inFirstButNotInSecond_(firstContainer, secondContainer);
+	}
+
+	// internal function with core logic, used to reduce duplicate code
+	template<typename FirstContainerType, typename SecondContainerType>
+	auto inFirstButNotInSecond_(const FirstContainerType& firstContainer, const SecondContainerType& secondContainer) {
+		std::unordered_set<FirstContainerType::value_type> results{};
+		for (const auto& item : firstContainer) {
+			if (!contains(secondContainer, item))
+				results.insert(item);
+		}
+		return results;
+	}
+	///@}
 }

@@ -265,3 +265,15 @@ TEST_CASE("containsAny()")
 		}
 	}
 }
+
+TEST_CASE("inFirstButNotSecond()") {
+	SECTION("vector on vector") {
+		std::vector<int> v1{ 1,2,3 };
+		std::vector<int> v2{ 1,4,5 };
+		auto results = STLWrappers::inFirstButNotInSecond(v1, v2);
+		std::vector<int> compare{ 2,3 };
+		REQUIRE(std::equal(std::begin(results), std::end(results), std::begin(compare),std::end(compare)));
+
+		STLWrappers::inFirstButNotInSecond(std::vector<int>{1, 2, 3}, std::vector<int>{3});
+	}
+}
